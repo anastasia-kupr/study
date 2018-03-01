@@ -1,0 +1,441 @@
+var contactMeWdgtSettings = {
+    position: 'left',
+    autoShow: false,
+    autoShowDelay: 45000, 
+    view: 'regular',
+    data: {
+      iframeSrc: 'https://api.atlantm.com/widgets/contact/105/',
+      labelText: 'Свяжитесь с нами',
+      formAction: '/widget/contact/add_contact.html',
+      formTitle: 'У Вас есть вопрос?',
+      phoneExample: '+375 (99) 999-99-99',
+      formType: 'want-car',
+      fields: {
+          hidden: [
+            {name: 'posting', value: 1},
+{name: 'f_Dealer', value: 105},            {name: 'f_URL', value: 'http://landrover-atlantm.by/news/article/1332/'},
+            {name: 'f_Source', value: 2}
+          ],
+          selects: [         {
+        id: 'department-select',
+        label: 'Отдел',
+        name: 'f_Division',
+        required: true,
+        disabled: false,
+        options: [
+            {value: null, text: '--- выберите ---'},
+                        {value: 20, text: 'Reception'},
+{value: 19, text: 'Отдел запчастей'},
+{value: 18, text: 'Отдел сервиса'},
+{value: 17, text: 'Отдел Trade-In'},
+{value: 16, text: 'Отдел продаж автомобилей'}            ]
+        }
+     ]}, 
+    customHTML: 'Оставьте свои контактные данные, и мы свяжемся с Вами в ближайшее время!' },
+    onInit: null,
+    onOpen: null,
+    onClose: null
+}
+;(function(window, document, undefined) {
+
+  // Utils
+  var utils = {
+
+    isIE: function() {
+      var myNav = navigator.userAgent.toLowerCase();
+
+      return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+    },
+
+    loadScript: function(src, callback) {
+      var script = document.createElement('script');
+
+      script.src = src;
+      document.documentElement.appendChild(script);
+
+      script.onload = script.onerror = function() {
+        if (!this.executed) { 
+          this.executed = true;
+          if (typeof callback === 'function') {
+            callback();
+          }
+        }
+      };
+
+      script.onreadystatechange = function() {
+        var self = this;
+        if (this.readyState == "complete" || this.readyState == "loaded") {
+          setTimeout(function() { self.onload() }, 0);
+        }
+      };
+
+    },
+
+    loadStyle: function(src, callback) {
+      if (document.createStyleSheet) {
+        document.createStyleSheet(src);
+      }
+      else {
+        var head = document.getElementsByTagName('head')[0];
+        var link = document.createElement('link');
+
+        if (link !== null && head !== undefined) {
+          link.setAttribute('type', 'text/css');
+          link.setAttribute('href', src);
+          link.setAttribute('rel', 'stylesheet');
+
+          head.appendChild(link);
+        }
+      }
+
+      if (typeof callback === 'function') {
+        setTimeout(callback, 200);
+      }
+    }
+
+  }
+
+
+  // Load scripts & stylesheets
+  var $j;
+
+  utils.loadScript('https://api.atlantm.com/_widgets/contact/js/libs/jquery-1.7.1.min.js', function() {
+    $j = jQuery.noConflict(true);
+    utils.loadStyle('https://api.atlantm.com/_widgets/contact/css/init.css?v=14', function() {
+
+      var baseMarkup = '<div class="wdg-contact-me is-initialization' + ((utils.isIE() == 8) ? ' ie8' : '') + '">' +
+                        '<div class="wdg-contact-me__body"></div>' +
+                        '<div class="wdg-contact-me__label">' +
+                          '<a class="wdg-contact-me__label-link"></a>' +
+                        '</div>' +
+                       '</div>';
+
+      $j('body').append(baseMarkup);
+
+      defineWidget($j);
+
+      $j('.wdg-contact-me').contactMe(contactMeWdgtSettings || {});
+    });
+  });
+
+  
+
+  function defineWidget($) {
+
+    // Widget code
+    var widgetName = 'contactMe',
+        defaults = {
+          position: 'left', // left/right
+          autoShow: false,
+          autoShowDelay: 100, // ms
+          view: 'regular',
+          data: {
+            iframeSrc: '/_widgets/contact/widget.html',
+            labelText: 'Свяжитесь с нами',
+            formTitle: 'Свяжитесь с нами',
+            formType: 'order-car-parts'
+          },
+          onInit: null,
+          onOpen: null,
+          onClose: null
+        }
+
+
+    function ContactMe(element, options) {
+      this.element = element;
+      this.$element = $(element);
+      this.settings = $.extend({}, defaults, options);
+      this._defaults = defaults;
+      this._name = widgetName;
+      this._transitionEndEvents = 'transitionend mozTransitionEnd webkitTransitionEnd oTransitionEnd otransitionend';
+      
+      if (this.isMobileDevice()) {
+        this.settings.isMobile = true;
+        this.settings.view = 'compact';
+      }
+
+      this.initialization();
+    }
+
+
+    ContactMe.prototype = {
+
+      initialization: function() {
+        var _this = this;
+
+        _this.render();
+        _this.attachEvents();
+        _this.loadIframe();
+      },
+
+      isMobileDevice: function() {
+        var ua = navigator.userAgent;
+        return ua.match(/Android/i) || ua.match(/BlackBerry/i) || ua.match(/iPhone|iPad|iPod/i) || ua.match(/Opera Mini/i) || ua.match(/IEMobile/i);
+        //return false;
+      },
+
+      render: function() {
+        var _this = this,
+            $el = _this.$element,
+            position = _this.settings.position,
+            view = _this.settings.view;
+
+        $el
+          .addClass('wdg-contact-me_pos-'  + position)
+          .addClass('wdg-contact-me_view-' + view);
+
+        if (_this.settings.data.formType) {
+          $el.addClass('wdg-contact-me_' + _this.settings.data.formType);
+        }
+
+        if (_this.settings.isMobile) {
+          $el.addClass('is-mobile');
+          //$('body').append('<div class="wdg-contact-me-overlay"></div>');
+        }
+
+        $el.find('.wdg-contact-me__label-link').html(_this.settings.data.labelText);
+      },
+
+      setupPos: function() {
+        var _this = this,
+            $el = _this.$element,
+            position = _this.settings.position;
+            windowHeight = $(window).height(),
+            newTop = (windowHeight / 2) - (_this.formHeight / 2);
+
+        if (newTop < 50) {
+          newTop = 50;
+        }
+
+        $el.css('top', newTop);
+      },
+
+      attachEvents: function() {
+        var _this = this,
+            $el = _this.$element;
+
+        $el.find('.wdg-contact-me__label-link').on('click', function(e) {
+          e.preventDefault();
+
+          if (!$el.hasClass('is-open')) {
+            _this.open();
+          }
+          else {
+            _this.close();
+          }
+        });
+
+
+        $(window).on('resize', function() {
+          _this.setupPos.call(_this);
+
+          if ($el.hasClass('is-open')) {
+            _this.checkPos.call(_this);
+          }
+          
+        });
+
+        if (window.addEventListener){
+          window.addEventListener('message', function(e) {
+            _this.postMsgListener.call(_this, e);
+          }, false);
+        } else {
+          window.attachEvent('onmessage', function(e) {
+            _this.postMsgListener.call(_this, e);
+          });
+        }
+
+        _this.$element.on('isFullyInit', function() {
+          _this.$element.removeClass('is-initialization');
+
+          if ($.isFunction(_this.settings.onInit)) _this.settings.onInit.call(_this);
+        });
+
+      },
+
+      loadIframe: function() {
+        var _this = this,
+            $el = _this.$element,
+            $iframe;
+            var now = new Date().getTime();
+
+        $iframe = $('<iframe src="' + _this.settings.data.iframeSrc + '?v='+now+'" id="contact_me_widget_frame" name="contact_me_widget_frame" frameborder="0" allowtransparency="true" scrolling="no" style="border: 0 none;" class="wdg-contact-me__iframe"></iframe>');
+
+        $el.find('.wdg-contact-me__body').append($iframe);
+        $iframe.on('load', function() {
+          if (_this.settings.autoShow) _this.setupAutoShow();
+
+          //var win = frames.contact_me_widget_frame;
+          var win = document.getElementById('contact_me_widget_frame').contentWindow;
+
+          if (JSON.stringify && win.postMessage) {
+            win.postMessage('msgType:settings>' + JSON.stringify(_this.settings), '*');
+          }
+
+        });
+      },
+
+      /* Обмен данными осуществляется в виде:
+      'msgType:something>{"setting1":"1","setting2":"2"}'
+      'msgType:something'
+
+      msgType содержит тип отправляемого сообщения через двоеточие
+      если нужно отправить настройки, то делается это с помощью разделителя >
+      перед отправкой настройки нужно сериализовать с помощью JSON.stringify
+
+      */
+      postMsgListener: function(e) {
+        var _this = this;
+
+        if (!e.data) return;
+
+        var msg = _this.getMsgInfo(e.data);
+
+        switch(msg.type) {
+
+          case 'formIsInit': 
+            _this.formHeight = msg.settings.formHeight;
+            _this.setupHeight();
+            _this.setupPos();
+            _this.$element.trigger('isFullyInit');
+            break;
+
+          case 'closeWidget':
+            _this.close();
+            break;
+
+          case 'msgIsSend':
+            setTimeout(function() {
+              _this.close();
+              _this.setCookie('contactMeNotShowAgain', 1);
+            }, 2000);
+            break;
+
+        }
+      },
+
+      getMsgInfo: function(data) {
+        var semicolonPos = data.indexOf(':'),
+            arrPos = data.indexOf('>'),
+            msgType,
+            msgSettings;
+
+        // If it is simple message without settings (e.g. msgType:something)
+        if (arrPos == -1) {
+          msgType = data.substr(semicolonPos + 1);
+
+          return {type: msgType, settings: {}};
+        }
+
+        // If it is message with some settings (e.g. msgType:something>{"setting1":"1","setting2":"2"})
+        else {
+          msgType = data.substr(semicolonPos + 1, (arrPos - semicolonPos) - 1);
+          msgSettings = JSON.parse(data.substr(arrPos + 1));
+
+          return {type: msgType, settings: msgSettings};
+        }
+      },
+
+      setupAutoShow: function() {
+        var _this = this,
+            delay = _this.settings.autoShowDelay < 100 ? 100 : _this.settings.autoShowDelay;
+
+        if (_this.settings.isMobile || _this.getCookie('contactMeNotShowAgain')) return false;
+
+        setTimeout(function() {
+          _this.open();
+
+          _this.setCookie('contactMeNotShowAgain', 1);
+        }, delay);
+      },
+
+      setCookie: function(name, value) {
+        var date = new Date,
+            cook;
+
+        date.setDate( date.getDate() + 30 ); // expires 30 days
+
+        cook = name + '=' + value + '; path=/; expires='+date.toUTCString();
+
+        document.cookie = cook;
+      },
+
+      // Return cookie with 'name' if exist. Else return undefined
+      getCookie: function(name) {
+        var matches = document.cookie.match(new RegExp(
+          "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+      },
+
+      checkPos: function() {
+        var _this = this,
+            $el = _this.$element,
+            height = $el.outerHeight(),
+            offset = $el.offset(),
+            windowHeight = $(window).height(),
+            windowScrollTop = $(window).scrollTop(),
+            oldPosition,
+            newTop;
+
+        if (windowHeight < (offset.top - windowScrollTop) + height) {
+          oldPosition = $el.css('top');
+          newTop = windowHeight - height;
+          $el.css('top', newTop);
+          $el.off('close').on('close', function() {
+            if (parseInt($el.css('top')) == newTop) {
+              $el.css('top', oldPosition);
+            }
+          });
+        }
+        
+      },
+
+      setupHeight: function() {
+        var _this = this;
+
+        _this.$element.find('.wdg-contact-me__body').height(_this.formHeight);
+      },
+
+      open: function() {
+        var _this = this;
+
+        _this.checkPos();
+        _this.$element.addClass('is-open');
+
+        if (_this.settings.isMobile) $('html').addClass('wdg-contact-me-lock');
+
+        if ($.isFunction(_this.settings.onOpen)) _this.settings.onOpen.call(_this);
+      },
+
+      close: function() {
+        var _this = this,
+            $el = _this.$element;
+
+        $el.removeClass('is-open');
+
+        if (_this.settings.isMobile) $('html').removeClass('wdg-contact-me-lock');
+
+        $el.on(_this._transitionEndEvents, function() {
+          $el.trigger('close').off(_this._transitionEndEvents);
+
+          if ($.isFunction(_this.settings.onClose)) _this.settings.onClose.call(_this);
+        });
+
+      }
+
+    };
+
+
+    $.fn[widgetName] = function(options) {
+      return this.each(function() {
+        if (!$.data(this, widgetName)) {
+          $.data(this, widgetName, new ContactMe(this, options));
+        }
+      });
+    };
+
+  }
+
+})(window, document);

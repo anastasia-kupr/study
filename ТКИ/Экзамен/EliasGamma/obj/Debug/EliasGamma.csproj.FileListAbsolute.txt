@@ -1,0 +1,6 @@
+E:\ТТИ ЮФУ\ПРЕДМЕТЫ\Магистратура 2016-2018\МКиОДП\Методы Кодирования\Практика\CM_Practice4\EliasGamma\bin\Debug\EliasGamma.exe.config
+E:\ТТИ ЮФУ\ПРЕДМЕТЫ\Магистратура 2016-2018\МКиОДП\Методы Кодирования\Практика\CM_Practice4\EliasGamma\bin\Debug\EliasGamma.exe
+E:\ТТИ ЮФУ\ПРЕДМЕТЫ\Магистратура 2016-2018\МКиОДП\Методы Кодирования\Практика\CM_Practice4\EliasGamma\bin\Debug\EliasGamma.pdb
+E:\ТТИ ЮФУ\ПРЕДМЕТЫ\Магистратура 2016-2018\МКиОДП\Методы Кодирования\Практика\CM_Practice4\EliasGamma\obj\Debug\EliasGamma.csprojResolveAssemblyReference.cache
+E:\ТТИ ЮФУ\ПРЕДМЕТЫ\Магистратура 2016-2018\МКиОДП\Методы Кодирования\Практика\CM_Practice4\EliasGamma\obj\Debug\EliasGamma.exe
+E:\ТТИ ЮФУ\ПРЕДМЕТЫ\Магистратура 2016-2018\МКиОДП\Методы Кодирования\Практика\CM_Practice4\EliasGamma\obj\Debug\EliasGamma.pdb

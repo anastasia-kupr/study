@@ -1,0 +1,8 @@
+set xlabel "X axis" 
+set ylabel "Y axis" 
+set zlabel "Z axis" 
+
+#set dgrid3d 30,30
+set hidden3d
+splot "output" u 1:2:3 with lines
+#pause -1 "Hit any key to continue"

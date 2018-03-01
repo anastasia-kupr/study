@@ -1,0 +1,42 @@
+jQuery(document).ready(function() {
+
+  	jQuery(window).scroll(function() {
+		var parent = jQuery('.sidebar').position().top + jQuery('.sidebar').height() - jQuery('.sidebar').find('.widget_adv').height() + 200;
+		if(jQuery(window).scrollTop() > parent){ 
+			jQuery('.sidebar').find('.widget_adv').addClass('widget_adv_fixed');
+		}
+
+		var parent = jQuery('.sidebar').position().top + jQuery('.sidebar').height() + 200;
+		if(jQuery(window).scrollTop() < parent){
+			jQuery('.sidebar').find('.widget_adv').removeClass('widget_adv_fixed');
+		}
+
+		var parent = jQuery('.sidebar-left').position().top + jQuery('.sidebar-left').height() - jQuery('.sidebar-left').find('.widget_adv').height() + 200;
+		if(jQuery(window).scrollTop() > parent){ 
+			jQuery('.sidebar-left').find('.widget_adv').addClass('widget_adv_fixed');
+		}
+
+		var parent = jQuery('.sidebar-left').position().top + jQuery('.sidebar-left').height() + 200;
+		if(jQuery(window).scrollTop() < parent){
+			jQuery('.sidebar-left').find('.widget_adv').removeClass('widget_adv_fixed');
+		}
+
+	});
+
+	jQuery('.show_magazine_slovo').click(function() {
+		jQuery('.magazine_slovo2').show();
+		jQuery(this).hide();
+	});
+
+
+	jQuery('#carusel').cycle({ 
+		speed: 1000,
+		fx: 'fade',
+		timeout: 7000,
+		pager:  '#pager', 
+		containerResize: false,
+  		slideResize: false,
+  		fit: 1
+	});
+
+});

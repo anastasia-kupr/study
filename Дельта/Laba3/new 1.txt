@@ -1,0 +1,132 @@
+использовать Файлы
+файл outf
+цел i, j, ix, iy, k
+вещ current, d, dx, dy, l, na, p, swsign, t, Tn
+цел lx, ly, elemX, elemY
+
+алг
+нач
+  вывод "Введите число интервалов: "
+  ввод k
+  вывод "Введите число шагов по X: "
+  ввод lx
+  вещтаб valX[0:lx-1]
+  нц для i от 0 до lx-1
+    вывод "Введите значение X", i, ": "
+    ввод valX[i]
+  кц
+  вывод "Введите число шагов по Y: "
+  ввод ly
+  вещтаб valY[0:ly-1]
+  нц для i от 0 до ly-1
+    вывод "Введите значение Y", i, ": "
+    ввод valY[i]
+  кц
+  вещтаб valZ[0:lx-1, 0:ly-1]
+  нц для i от 0 до lx-1
+    нц для j от 0 до ly-1
+      вывод "Введите значение точки (", i, ",", j, "): "
+      ввод valZ[i,j]
+    кц
+  кц
+  elemX := (lx - 1)*k + 1;
+  elemY := (ly - 1)*k + 1;
+  вещтаб derZ[0:elemX-1, 0:elemY-1]
+  вещтаб resX[0:elemX-1]
+  вещтаб resY[0:elemY-1]
+  вещтаб resOXZ[0:elemX-1, 0:ly-1]
+  вещтаб resOYZ[0:elemX-1, 0:elemY-1]
+  
+  | Построим одномерные кривые в плоскостях OXZ     
+  нц для iy от 0 до ly - 1
+    | Зададим значения производных Z в текущей плоскости в крайних точках
+    derZ[0, iy] := 0
+    derZ[lx - 1, iy] := 0
+    | Найдём значения производных Z в текущей плоскости в остальных точках
+    нц для i от 1 до (lx - 2)
+      если (((valZ[i-1, iy] <= valZ[i, iy]) и (valZ[i+1, iy] <= valZ[i, iy])) или ((valZ[i-1, iy] >= valZ[i, iy]) и (valZ[i+1, iy] >= valZ[i, iy])))
+        то derZ[i, iy] := 0
+        иначе derZ[i, iy] := 0.5 * ((valZ[i, iy] - valZ[i-1, iy])/(valX[i] - valX[i-1]) + (valZ[i+1, iy] - valZ[i, iy])/(valX[i+1] - valX[i]))
+      все
+    кц
+    | Пройдём по узлам интерполяции
+    нц для i от 0 до (lx - 2)
+      Tn := valX[i+1] - valX[i] | интервал между узлами
+      l := valZ[i+1, iy] - valZ[i, iy] - 0.5*Tn*(derZ[i+1, iy]+derZ[i, iy])
+      p := (-1*l - sign(l)*sqrt(l*l + 0.25*(Tn**2)*((derZ[i, iy] - derZ[i+1, iy])**2)))/(0.5*Tn*Tn)
+      если (p = 0)
+        то d := 0
+        иначе d := (derZ[i+1, iy] - derZ[i, iy] + Tn*p)/(2*p)
+      все
+      current := valX[i]
+      dx := (valX[i+1] - valX[i])/k | Шаг интерполяции
+      swsign := valX[i+1] - d | Координата переключения знака
+      | Построим сплайн на участке
+      j := 0
+      нц пока (current <= valX[i+1])
+        resX[i*k + j] := current
+        t := dx*j
+        если (current <= swsign)
+          то resOXZ[i*k + j, iy] := valZ[i, iy] + derZ[i, iy]*t - t*t*p/2
+          иначе resOXZ[i*k + j, iy] := valZ[i+1, iy] - derZ[i+1, iy]*(Tn-t) + (Tn-t)*(Tn-t)*p/2
+        все
+        current := current + dx
+        j := j + 1
+      кц
+    кц
+  кц
+  | Построим одномерные кривые в плоскостях OYZ
+  | Данные для построения берутся из OXZ - результатов вычислений на предыдущем шаге
+  нц для ix от 0 до elemX - 1
+    | Зададим значения производных Z в текущей плоскости в крайних точках
+    derZ[ix, 0] := 0
+    derZ[ix, ly - 1] := 0
+    | Найдём значения производных Z в текущей плоскости в остальных точках
+    нц для i от 1 до (ly - 2)
+      если (((resOXZ[ix, i-1] <= resOXZ[ix, i]) и (resOXZ[ix, i+1] <= resOXZ[ix, i])) или ((resOXZ[ix, i-1] >= resOXZ[ix, i]) и (resOXZ[ix, i+1] >= resOXZ[ix, i])))
+        то derZ[ix, i] := 0
+        иначе derZ[ix, i] := 0.5 * ((resOXZ[ix, i] - resOXZ[ix, i-1])/(valY[i] - valY[i-1]) + (resOXZ[ix, i+1] - resOXZ[ix, i])/(valY[i+1] - valY[i]))
+      все
+    кц
+    | Пройдём по узлам интерполяции
+    нц для i от 0 до (ly - 2)
+      Tn := valY[i+1] - valY[i] | интервал между узлами
+      l := resOXZ[ix, i+1] - resOXZ[ix, i] - 0.5*Tn*(derZ[ix, i+1]+derZ[ix, i])
+      p := (-1*l - sign(l)*sqrt(l*l + 0.25*(Tn**2)*((derZ[ix, i+1] - derZ[ix, i])**2)))/(0.5*Tn*Tn)
+      если (p = 0)
+        то d := 0
+        иначе d := (derZ[ix, i+1] - derZ[ix, i] + Tn*p)/(2*p)
+      все
+      current := valY[i]
+      dy := (valY[i+1] - valY[i])/k | Шаг интерполяции
+      swsign := valY[i+1] - d | Координата переключения знака
+      | Построим сплайн на участке
+      j := 0
+      нц пока (current <= valY[i+1])
+        resY[i*k + j] := current
+        t := dy*j
+        если (current <= swsign)
+          то resOYZ[ix, i*k + j] := resOXZ[ix, i] + derZ[ix, i]*t - t*t*p/2
+          иначе resOYZ[ix, i*k + j] := resOXZ[ix, i+1] - derZ[ix, i+1]*(Tn-t) + (Tn-t)*(Tn-t)*p/2
+        все
+        current := current + dy
+        j := j + 1
+      кц
+    кц
+  кц
+  | Массив resX содержит координаты Х плоскостей OXZ
+  | Массив resY содержит координаты Y плоскостей OYZ
+  | Массив resOYZ содержит значения узлов интерполированной поверхности 
+  
+  outf := открыть на запись("output4.txt")
+  |нц для j от 0 до elemX-1
+  |вывод outf, j, ' ', resOYZ[j, 0], нс;
+  |кц
+  нц для i от 0 до elemY-1
+    нц для j от 0 до elemX-1
+      вывод outf, resOYZ[j, i], ' ';
+    кц
+    вывод outf, нс
+  кц
+  закрыть (outf)
+кон

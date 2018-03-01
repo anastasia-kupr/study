@@ -1,0 +1,2 @@
+
+(function($){$(function(){$.extend(Drupal.settings,{"citaty-report":{"modalTheme":"citatyReportModalDialog","modalSize":{"type":"fixed","width":"316px","height":"400px"}}});});Drupal.theme.prototype.citatyReportModalDialog=function(){var html='';html+='  <div id="ctools-modal">';html+='    <div class="ctools-modal-content modal-report">';html+='      <span id="modal-title" class="modal-title"> </span>';html+='      <div id="modal-content" class="modal-content clearfix">';html+='      </div>';html+='    </div>';html+='  </div>';return html;}})(jQuery);;

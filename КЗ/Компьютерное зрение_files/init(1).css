@@ -1,0 +1,226 @@
+/* =============================================================================
+   BEGIN INIT WIDGET
+   ========================================================================== */	
+
+.wdg-contact-me-lock body {
+
+}
+
+.wdg-contact-me {
+  font-family: Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+  font-size: 14px;
+  font-weight: normal;  
+  position: fixed;
+  top: 100px;
+  z-index: 6000;
+  -webkit-transition: left 300ms, right 300ms;
+     -moz-transition: left 300ms, right 300ms;
+       -o-transition: left 300ms, right 300ms;
+          transition: left 300ms, right 300ms;
+}
+.wdg-contact-me.is-initialization {
+  visibility: hidden;
+  opacity: 0;
+}
+
+
+/* label */
+
+.wdg-contact-me__label {
+  position: absolute;
+  top: 0;
+}
+.ie8 .wdg-contact-me__label {
+  writing-mode: bt-rl;
+}
+
+
+/* label link */
+
+.wdg-contact-me__label-link,
+.wdg-contact-me__label-link:hover {
+  padding: 10px !important;
+  border-top: none;
+  white-space: nowrap !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  display: block !important;
+  cursor: pointer !important;
+  background: #027cc0;
+  border-color: #0c7ab9;
+  text-decoration: none !important;
+}
+
+.wdg-contact-me__label-link {
+  -webkit-border-radius: 0 0 10px 10px;
+     -moz-border-radius: 0 0 10px 10px;
+          border-radius: 0 0 10px 10px;
+}
+
+
+/* views */
+
+.wdg-contact-me_view-compact .wdg-contact-me__body {
+  width: 300px;
+}
+
+.wdg-contact-me_view-compact.wdg-contact-me_pos-left {
+  left: -300px;
+}
+
+.wdg-contact-me_view-compact.wdg-contact-me_pos-right {
+  right: -300px;
+}
+
+
+
+/* positions */
+
+.wdg-contact-me_pos-left {
+  left: -450px;
+}
+.wdg-contact-me_pos-left.is-open {
+  left: 0;
+}
+.wdg-contact-me_pos-left .wdg-contact-me__label {
+  left: 100%;
+}
+.wdg-contact-me_pos-left .wdg-contact-me__label {
+  -webkit-transform: translate(-100%, 0);
+     -moz-transform: translate(-100%, 0);
+      -ms-transform: translate(-100%, 0);
+       -o-transform: translate(-100%, 0);
+          transform: translate(-100%, 0);
+}
+.wdg-contact-me_pos-left .wdg-contact-me__label-link {
+  -webkit-transform-origin: 100% 0;
+     -moz-transform-origin: 100% 0;
+      -ms-transform-origin: 100% 0;
+       -o-transform-origin: 100% 0;
+          transform-origin: 100% 0;
+  -webkit-transform: rotate(-90deg);
+     -moz-transform: rotate(-90deg);
+      -ms-transform: rotate(-90deg);
+       -o-transform: rotate(-90deg);
+          transform: rotate(-90deg);          
+}
+
+
+/* right */
+
+.wdg-contact-me_pos-right {
+  right: -450px;
+}
+.wdg-contact-me_pos-right.is-open {
+  right: 0;
+}
+.wdg-contact-me_pos-right .wdg-contact-me__label {
+  right: 100%;
+}
+.wdg-contact-me_pos-right .wdg-contact-me__label-link {
+  -webkit-transform-origin: 100% 0;
+     -moz-transform-origin: 100% 0;
+      -ms-transform-origin: 100% 0;
+       -o-transform-origin: 100% 0;
+          transform-origin: 100% 0;
+  -webkit-transform: rotate(-90deg) translateY(-100%);
+     -moz-transform: rotate(-90deg) translateY(-100%);
+      -ms-transform: rotate(-90deg) translateY(-100%);
+       -o-transform: rotate(-90deg) translateY(-100%);
+          transform: rotate(-90deg) translateY(-100%);
+  -webkit-border-radius: 10px 10px 0 0;
+     -moz-border-radius: 10px 10px 0 0;
+          border-radius: 10px 10px 0 0;          
+}
+
+
+.wdg-contact-me__body {
+  width: 450px;
+  height: 470px;
+}
+
+.wdg-contact-me__iframe {
+  width: 100%;
+  height: 100%;
+  border: 0 none;
+}
+
+
+/* types */
+
+.wdg-contact-me_call .wdg-contact-me__label-link {
+  background: #f3f4f4;
+  border-color: #d7dada;
+  color: #222;
+}
+.wdg-contact-me_test-drive .wdg-contact-me__label-link {
+  background: #f6cf45;
+  border-color: #eebe13;
+  color: #222;
+}
+.wdg-contact-me_want-car .wdg-contact-me__label-link {
+  background: #027cc0;
+  border-color: #0c7ab9;
+  color: #fff;
+  text-decoration: none;
+}
+.wdg-contact-me_car-parts .wdg-contact-me__label-link {
+  background: #b3fdbb;
+  border-color: #94dc9b;
+  color: #222;
+}
+.wdg-contact-me_skoda .wdg-contact-me__label-link {
+  background: rgb(75, 168, 46);
+  color: #fff;
+  text-decoration: none;
+}
+
+
+
+/* mobile */
+
+.wdg-contact-me-overlay {
+
+}
+
+.wdg-contact-me.is-mobile {
+  -webkit-transition: none;
+     -moz-transition: none;
+       -o-transition: none;
+          transition: none;
+}
+
+.wdg-contact-me.is-mobile.is-open {
+  position: fixed;
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  background: rgba(0, 0, 0, .7);
+  z-index: 1000000;
+}
+
+.wdg-contact-me.is-mobile.is-open .wdg-contact-me__label {
+  display: none;
+}
+
+.wdg-contact-me.is-mobile.is-open .wdg-contact-me__body {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 300px;
+  margin-left: -150px;
+}
+
+
+@media print {
+
+  .wdg-contact-me {
+    display: none;
+  }
+
+}
+
+/* =============================================================================
+   END INIT WIDGET
+   ========================================================================== */

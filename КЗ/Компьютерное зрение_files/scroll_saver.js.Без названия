@@ -1,0 +1,35 @@
+/* Save scroll position after page reload for popups */
+
+var scrollPattern = '<xscroll_(\\d+)_yscroll_(\\d+)>';
+
+document.body.addEventListener("click",
+    function(e){
+        var popups = document.getElementsByClassName("fancybox-wrap");
+        var close_button = document.getElementsByClassName("fancybox-close")[0];
+        if (popups.length && (!popups[0].contains(e.target) || e.target == close_button)){
+            setScroll();
+        }
+    },
+    true);
+
+function saveScroll(){
+    var scrollData = '<xscroll_' + window.pageXOffset + '_yscroll_' + window.pageYOffset + '>';
+    if (window.name.match(scrollPattern)) {
+        window.name = window.name.replace(new RegExp(scrollPattern, 'g'), scrollData)
+    } else {
+        window.name += scrollData;
+    }
+}
+
+function setScroll(){
+    var matchArray = window.name.match(scrollPattern);
+    if (matchArray) {
+        window.scrollTo(matchArray[1], matchArray[2]);
+        window.name = window.name.replace(new RegExp(scrollPattern, 'g'), "");
+    }
+}
+
+function enableScrollSave(){
+    saveScroll();
+}
+

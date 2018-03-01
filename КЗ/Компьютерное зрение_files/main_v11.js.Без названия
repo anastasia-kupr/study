@@ -1,0 +1,266 @@
+;(function(window, document, undefined) {
+
+
+  // linked selects
+  function LinkedSelect(elem) {
+
+    var self = {}
+
+
+    init();
+
+    function init() {
+      self.$elem = $(elem);
+      self.$target = $(self.$elem.data('target'));
+      self.$form = self.$elem.closest('form');
+
+      attachEvents();
+
+      console.log(!self.$target.find('option:selected').length)
+
+      if (self.$elem.val() !== '' && self.$target.val() === '') self.$elem.trigger('change');
+    }
+
+    function attachEvents() {
+      self.$elem.on('change', onChange);
+    }
+
+    function onChange(e) {
+      var $this = $(this),
+          selected = $this.val();
+
+      if (selected === '') {
+        self.$target
+          .val('')
+          .empty()
+          .prop('disabled', true);
+
+        return false;
+      }
+
+      var formData = self.$form.serialize() + '&related=1&template=999&isNaked=1&changed=' + $this.attr('name');
+
+      $.ajax({
+        url: self.$elem.data('url') || self.$form.attr('action') || location.href,
+        type: 'get',
+        data: formData,
+        beforeSend: function(jqXHR, settings) {
+          self.$target.html('<option value="" selected>загрузка...</option>').prop('disabled', true);
+        },
+        success: function(data) {
+          self.$target.html(data).prop('disabled', false).change();
+        }
+      });
+
+    }
+
+  }
+
+
+
+
+  // Define form template
+  var template = 
+          '<form action="${data.formAction}" method="post" data-js="validate" class="wdg-contact-me__form{{if data.formType}} wdg-contact-me__form_${data.formType}{{/if}}">' +
+            '<div class="wdg-contact-me__form-title">{{html data.formTitle}}</div>' +
+            '<div class="wdg-contact-me__form-inner">' +
+              '{{if data.customHTML}}<div class="wdg-contact-me__form-row">{{html data.customHTML}}</div>{{/if}}' +
+              '{{each data.fields.hidden}}' +
+              '<input type="hidden" name="${name}" value="${value}">' +
+              '{{/each}}' +
+              '<div class="wdg-contact-me__form-row wdg-contact-me__form-row_name">' +
+                '<label for="wdg-contact-me-name-input" class="wdg-contact-me__form-label">Ваше имя</label>' +
+                '<input type="text" id="wdg-contact-me-name-input" title="Имя" class="wdg-contact-me__form-input" name="f_Name">' +
+              '</div>' +
+              '<div class="wdg-contact-me__form-row wdg-contact-me__form-row_phone">' +
+                '<label for="wdg-contact-me-phone-input" class="wdg-contact-me__form-label">Телефон или e-mail</label>' +
+                '<input type="text" id="wdg-contact-me-phone-input" title="Телефон или e-mail" class="wdg-contact-me__form-input" name="f_Contact">' +
+                '<span class="wdg-contact-me__form-help">Например: ${data.phoneExample}</span>'+
+              '</div>' +
+              '{{each data.fields.selects}}' +
+              '<div class="wdg-contact-me__form-row wdg-contact-me-clearfix">' +
+                '<label for="${id}" class="wdg-contact-me__form-label">${label}</label>' +
+                '<select id="${id}" class="wdg-contact-me__form-select{{if linked}} js-linked-select{{/if}}" name="${name}" title="${label}"{{if required}} required{{/if}}{{if disabled}} disabled{{/if}}{{if linked}} data-url="${linked.url}" data-target="${linked.target}"{{/if}}>' +
+                '{{each options}}' +
+                '<option value="${value}"{{if selected}} selected{{/if}}>${text}</option>' +
+                '{{/each}}' +                
+                '</select>' +
+              '</div>' +
+              '{{/each}}' +
+              '<div class="wdg-contact-me__form-row">' +
+                '<label for="wdg-contact-me-msg-textarea" class="wdg-contact-me__form-label">Сообщение</label>' +
+                '<textarea id="wdg-contact-me-msg-textarea" title="Сообщение" class="wdg-contact-me__form-textarea" name="f_Message"></textarea>' +
+              '</div>' +
+              '<div class="wdg-contact-me__form-actions wdg-contact-me-clearfix">' +
+                '<div class="wdg-contact-me__status"></div>' +
+                '<button class="wdg-contact-me__btn" type="submit">Отправить</button>' +
+              '</div>' +
+              '<div class="wdg-contact-me__form-row wdg-contact-me__form-footer wdg-contact-me-clearfix">' +
+                '<a href="#" class="wdg-contact-me__no-link">Нет, спасибо</a>' +
+              '</div>' +
+              '<div class="wdg-contact-me__form-row wdg-contact-me-clearfix" style="color:#d0d0d0;font-size:9px;margin-top:10px;">Нажав кнопку «Отправить», я даю согласие на обработку моих персональных данных и получение рекламы. С условиями обработки персональных данных и получения рекламы, изложенными на <a href="http://www.atlantm.com/agreement/" target="_blank" style="color:#d0d0d0;">сайте</a> ознакомлен и согласен.</div>' +
+            '</div>' +
+            '{{if isMobile}}<a class="wdg-contact-me__close" title="закрыть"></a>{{/if}}' +
+          '</form>';
+
+  $.template('contact-me-form-tmpl', template);
+
+
+
+
+  // Attach postMessage event listener
+  if (window.addEventListener){
+    window.addEventListener('message', postMsgListener, false);
+  } else {
+    window.attachEvent('onmessage', postMsgListener);
+  }
+
+
+  /* Обмен данными осуществляется в виде:
+  'msgType:something>{"setting1":"1","setting2":"2"}'
+  'msgType:something'
+
+  где msgType содержит тип отправляемого сообщения через двоеточие
+  если нужно отправить настройки, то делается это с помощью разделителя >
+  перед отправкой настройки нужно сериализовать с помощью JSON.stringify
+
+  */
+  function postMsgListener(e) {
+    if (!e.data) return;
+
+    var msg = getMsgInfo(e.data);
+
+    switch(msg.type) {
+      case 'settings': buildForm(msg.settings); break;
+    }
+
+  }
+
+  function getMsgInfo(data) {
+    var semicolonPos = data.indexOf(':'),
+        arrPos = data.indexOf('>'),
+        msgType,
+        msgSettings;
+
+    // If it is simple message without settings (e.g. msgType:something)
+    if (arrPos == -1) {
+      msgType = data.substr(semicolonPos + 1);
+
+      return {type: msgType, settings: {}};
+    }
+
+    // If it is message with some settings (e.g. msgType:something>{"setting1":"1","setting2":"2"})
+    else {
+      msgType = data.substr(semicolonPos + 1, (arrPos - semicolonPos) - 1);
+      msgSettings = JSON.parse(data.substr(arrPos + 1));
+
+      return {type: msgType, settings: msgSettings};
+    }
+
+  }
+
+  function buildForm(settings) {
+    $.tmpl('contact-me-form-tmpl', settings).appendTo($('body'));
+
+    var $form = $('.wdg-contact-me__form');
+
+    $form.addClass('wdg-contact-me__form_view-' + settings.view);
+
+    if (settings.isMobile) $form.addClass('is-mobile');
+
+
+    // init linked selects
+    if ($('.js-linked-select').length) {
+      $('.js-linked-select').each(function() {
+        new LinkedSelect($(this));
+      });
+    }
+
+
+    // Init validate plugin
+    jQuery.validator.addMethod('emailOrPhone', function (value, element) {
+      return value !== '' && (jQuery.validator.methods.email.call(this, value, element) || /^[0-9-+()\s]+$/.test(value));
+    }, '*');
+
+
+    $form.validate({
+      rules: {
+        f_Name: {
+          required: true,
+          minlength: 2
+        },
+        f_Contact: {
+          emailOrPhone: true,
+          minlength: 6
+        },
+        f_Email: {
+          required: true,
+          minlength: 5
+        }
+      },
+      ignore: ".ignore, :disabled",
+      focusInvalid: true,
+      success: 'valid',
+      errorLabelContainer : $form.find('.wdg-contact-me__status'),
+      showErrors: function(errorMap, errorList) {
+        $form.find('.wdg-contact-me__status .err-text, .wdg-contact-me__status .success-text').remove();
+        $form.find('.wdg-contact-me__status').prepend("<span class='err-text'>Осталось заполнить: <br></span>");
+        this.defaultShowErrors();
+      }
+    });
+
+
+    $form.find('.form__select').on('change', function() {
+      $(this).click();
+    });
+
+
+    // Init ajaxForm plugin
+    $form.ajaxForm({
+      beforeSubmit: function(arr, $form, options) {
+        $form.find('.wdg-contact-me__status').empty();
+        $form.find('.wdg-contact-me__btn').attr('disabled', true).text('Отправляется...');
+      },
+      success: function(response, statusText, xhr, $form) {
+        $form.find('.wdg-contact-me__status').show().empty()
+
+        switch(response.status) {
+
+          case 'success':
+            $form.find('.wdg-contact-me__status').html('<span class="success-text">' + response.text + '</span>');
+            $form[0].reset();
+            break;
+
+          case 'error':
+            $form.find('.wdg-contact-me__status').html('<span style="color: red;">' + response.text + '</span>');
+            break;
+
+        }
+
+        $form.find('.wdg-contact-me__btn').attr('disabled', false).text('Отправить');
+        setTimeout(function() {
+          $form.find('.wdg-contact-me__status .success-text').remove();
+        }, 4000);
+
+        window.parent.postMessage('msgType:msgIsSend', '*');
+      }
+    });
+
+
+    $('.wdg-contact-me__no-link, .wdg-contact-me__close').on('click', function(e) {
+      e.preventDefault();
+
+      window.parent.postMessage('msgType:closeWidget', '*');
+    });
+
+    // Send 'formIsInit' message to parent window
+    var settings = {
+      formHeight: $form.outerHeight()
+    };
+
+    settings = JSON.stringify(settings);
+    window.parent.postMessage('msgType:formIsInit>' + settings, '*');
+  }
+
+
+})(window, document);

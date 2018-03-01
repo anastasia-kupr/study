@@ -1,0 +1,131 @@
+
+#include "def21060.h"
+#define N 150
+#define cs 10.0
+#define c1 0.125
+#define c5 0.5
+#define c2 1.5
+#define i 0;
+#define Yi 0;
+#define yi 0;
+#define deltaYi 0;
+
+//Source array
+//0x30000
+.SECTION/DM dm_data;
+.VAR input[N] = "data.txt";
+
+
+
+//Result Array
+//0x24000
+.SECTION/PM    pm_data;
+.VAR output[N];
+.VAR delta[N];
+.VAR F[N];
+.VAR deltaZ[N];
+
+.VAR delta2Y[N];
+.VAR deltaY[N];
+//.VAR c = 10.0;
+//.VAR cs = 10.0;
+
+
+.VAR zi;
+.VAR zip;
+.VAR Fi;
+.VAR deltaz;
+
+
+
+//0x20004 - 0x20007
+.SECTION/PM	   pm_irq_svc;
+		nop;
+		jump start;
+		nop;
+		nop;
+		
+//0x20100 - 0x20200
+.SECTION/PM    pm_code;
+start:
+		I0 = input;
+		M0 = 1;
+		I1 = delta;
+		I2 = output;
+		
+		F0 = cs;
+		F4 = Yi;
+		F1 = deltaYi;
+		F5 = yi;
+		F6 = zi;
+		F7 = zip;
+		F14 = 1.0;
+		F13 = -1.0;
+		F15 = 0;
+		//F7 = zi-z(i-1)		
+		
+		M7 = 1;
+ 		F4 = Yi;
+		
+ 		LCNTR = N, DO xxx UNTIL LCE;
+ 			//I1 = zi;
+ 			//F6 = DM(I1, M1);
+ 			F5 = DM(I0,M1);
+ 			F6 = F4-F5;//zi=Yi-yi
+ 			F8 = F6-F7; //deltazi
+ 			COMP(F8, F15);
+ 			//IF NE CALL Sign1;
+ 			//IF EQ CALL Sign2;
+
+ 			if LE F9=F13; //F9 = sign(deltaZi)
+ 			if GT F9=F14;
+ 			F2 = c5;
+ 			F12 = F2*F8;//0.5deltaz
+ 			F12 = F12*F8;
+ 			F0 = RECIPS F0;
+ 			F12 = F12*F0;
+ 			F2 = c1;
+ 			F11 = F2*F0;//0.125c
+ 			F12 = F12-F11;
+ 			F12 = F12*F9;
+ 			F2 = c2;
+ 			F10 = F8*F2;//1.5deltazi
+ 			F12 = F12+F10;
+ 			F12 = F12+F6;
+ 			COMP(F12, F15);
+ 			if LE F9=F13; //F9 = -sign(Fi)
+ 			if GT F9=F14;
+ 			DM(I1, M7) = F9;
+ 			 			
+ 			F10 = F0*F9;//delta2Yi+1
+ 			F11 = F1+F10;//deltaY1+1
+ 			F4 = F4+F11;
+ 			DM(I2, M7) = F4;
+ 			F1 = F11;	
+ 			F7 = F6;
+ 			
+ 			nop;
+ 			nop;
+xxx:		nop;
+
+
+
+
+		
+ 		LCNTR = N, DO yyy UNTIL LCE;
+ 			
+ 			nop;
+ 			nop;
+ 			nop;	 			 			
+
+yyy:		nop;
+		
+
+wait:	IDLE;
+		jump wait;	
+		
+		
+Sign1: F9 = 1.0;
+		RTS;
+Sign2: F9 = -1.0;
+		RTS;

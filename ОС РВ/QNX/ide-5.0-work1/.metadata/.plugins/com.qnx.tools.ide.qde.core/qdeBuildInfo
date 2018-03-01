@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QdeProjectsBuildInfo>
+<qdeBuildInfo IMemento.internal.id="C:/Users/User/ide-5.0-work1/Send_1" buildConfig="_x86_g" projectName="Send_1">
+<srcDirs>
+<element>C:/Users/User/ide-5.0-work1/Send_1/x86/o</element>
+<element>C:/Users/User/ide-5.0-work1/Send_1/x86/o-g</element>
+<element>C:/Users/User/ide-5.0-work1/Send_1/x86</element>
+<element>C:/Users/User/ide-5.0-work1/Send_1</element>
+</srcDirs>
+<libDirs>
+<element>C:/Users/User/ide-5.0-work1/Send_1/x86/o-g</element>
+<element>C:/qnx660/target/qnx6/x86/lib</element>
+<element>C:/qnx660/target/qnx6/x86/usr/lib</element>
+</libDirs>
+<incDirs>
+<element>C:/qnx660/target/qnx6/usr/include</element>
+<element>C:/Users/User/ide-5.0-work1/Send_1/x86/o-g</element>
+<element>C:/Users/User/ide-5.0-work1/Send_1/x86/o</element>
+<element>C:/Users/User/ide-5.0-work1/Send_1/x86</element>
+<element>C:/Users/User/ide-5.0-work1/Send_1</element>
+</incDirs>
+<libs/>
+<SRCS>
+<element>C:/Users/User/ide-5.0-work1/Send_1/Send_1.c</element>
+</SRCS>
+<macros/>
+</qdeBuildInfo>
+</QdeProjectsBuildInfo>

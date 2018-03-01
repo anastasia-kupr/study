@@ -1,0 +1,133 @@
+
+/* gettext library */
+
+var catalog = new Array();
+
+function pluralidx(n) {
+  var v=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
+  if (typeof(v) == 'boolean') {
+    return v ? 1 : 0;
+  } else {
+    return v;
+  }
+}
+catalog['April'] = '\u0410\u043f\u0440\u0435\u043b\u044c';
+catalog['August'] = '\u0410\u0432\u0433\u0443\u0441\u0442';
+catalog['Close'] = '\u0417\u0430\u043a\u0440\u044b\u0442\u044c';
+catalog['December'] = '\u0414\u0435\u043a\u0430\u0431\u0440\u044c';
+catalog['February'] = '\u0424\u0435\u0432\u0440\u0430\u043b\u044c';
+catalog['Fr'] = '\u041f\u0442';
+catalog['Hours'] = '\u0427\u0430\u0441\u044b';
+catalog['Incorrect URL.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u044b\u0439 URL.';
+catalog['Incorrect card number.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u044b\u0439 \u043d\u043e\u043c\u0435\u0440 \u043a\u0440\u0435\u0434\u0438\u0442\u043d\u043e\u0439 \u043a\u0430\u0440\u0442\u044b.';
+catalog['Incorrect date. Date should be ISO-compatible.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u0443\u044e \u0434\u0430\u0442\u0443 \u0432 \u0444\u043e\u0440\u043c\u0430\u0442\u0435 ISO.';
+catalog['Incorrect date.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u0443\u044e \u0434\u0430\u0442\u0443.';
+catalog['Incorrect email.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043a\u043e\u0440\u0440\u0435\u0442\u043d\u044b\u0439 \u0430\u0434\u0440\u0435\u0441 \u044d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u043e\u0439 \u043f\u043e\u0447\u0442\u044b.';
+catalog['Incorrect file extension.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u0439\u043b \u0441 \u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u044b\u043c \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043d\u0438\u0435\u043c.';
+catalog['Incorrect value.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435.';
+catalog['January'] = '\u042f\u043d\u0432\u0430\u0440\u044c';
+catalog['July'] = '\u0418\u044e\u043b\u044c';
+catalog['June'] = '\u0418\u044e\u043d\u044c';
+catalog['March'] = '\u041c\u0430\u0440\u0442';
+catalog['May'] = '\u041c\u0430\u0439';
+catalog['Minutes'] = '\u041c\u0438\u043d\u0443\u0442\u044b';
+catalog['Mo'] = '\u041f\u043d';
+catalog['Name Form Validation'] = '[\u0410-\u042f\u0430-\u044f- ]';
+catalog['November'] = '\u041d\u043e\u044f\u0431\u0440\u044c';
+catalog['Now'] = '\u0421\u0435\u0439\u0447\u0430\u0441';
+catalog['Number of symbols should not be less than {0}'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043d\u0435 \u043c\u0435\u043d\u044c\u0448\u0435 {0} \u0441\u0438\u043c\u0432\u043e\u043b\u043e\u0432.';
+catalog['Number of symbols should not exceed {0}'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043d\u0435 \u0431\u043e\u043b\u044c\u0448\u0435 {0} \u0441\u0438\u043c\u0432\u043e\u043b\u043e\u0432.';
+catalog['October'] = '\u041e\u043a\u0442\u044f\u0431\u0440\u044c';
+catalog['Only digits are allowed.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u043e\u0434\u0438\u0442\u0435 \u0442\u043e\u043b\u044c\u043a\u043e \u0446\u0438\u0444\u0440\u044b.';
+catalog['Only numeric value is allowed.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u0447\u0438\u0441\u043b\u043e.';
+catalog['Open'] = '\u041e\u0442\u043a\u0440\u044b\u0442\u044c';
+catalog['Please input number in range from {0} to {1}.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u0447\u0438\u0441\u043b\u043e \u043e\u0442 {0} \u0434\u043e {1}.';
+catalog['Please input number not greater than {0}.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u0447\u0438\u0441\u043b\u043e, \u043c\u0435\u043d\u044c\u0448\u0435\u0435 \u0438\u043b\u0438 \u0440\u0430\u0432\u043d\u043e\u0435 {0}.';
+catalog['Please input number not less than {0}.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u0447\u0438\u0441\u043b\u043e, \u0431\u043e\u043b\u044c\u0448\u0435\u0435 \u0438\u043b\u0438 \u0440\u0430\u0432\u043d\u043e\u0435 {0}.';
+catalog['Please input the same value once more.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u0442\u0430\u043a\u043e\u0435 \u0436\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437.';
+catalog['Sa'] = '\u0421\u0431';
+catalog['September'] = '\u0421\u0435\u043d\u0442\u044f\u0431\u0440\u044c';
+catalog['State Registration Number Validation'] = '[a-zA-Z\u0410-\u042f\u0430-\u044f0-9- ]';
+catalog['Su'] = '\u0412\u0441';
+catalog['Surname Form Validation'] = '[\u0410-\u042f\u0430-\u044f]';
+catalog['Th'] = '\u0427\u0442';
+catalog['This field is required.'] = '\u042d\u0442\u043e \u043f\u043e\u043b\u0435 \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u043e \u0437\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u044c.';
+catalog['Time'] = '\u0412\u0440\u0435\u043c\u044f';
+catalog['Tu'] = '\u0412\u0442';
+catalog['Value should contain from {0} to {1} symbols.'] = '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435 \u0434\u043b\u0438\u043d\u043e\u0439 \u043e\u0442 {0} \u0434\u043e {1} \u0441\u0438\u043c\u0432\u043e\u043b\u043e\u0432.';
+catalog['We'] = '\u0421\u0440';
+catalog['expand'] = '\u0440\u0430\u0441\u043a\u0440\u044b\u0442\u044c';
+catalog['minimize'] = '\u0441\u0432\u0435\u0440\u043d\u0443\u0442\u044c';
+
+
+function gettext(msgid) {
+  var value = catalog[msgid];
+  if (typeof(value) == 'undefined') {
+    return msgid;
+  } else {
+    return (typeof(value) == 'string') ? value : value[0];
+  }
+}
+
+function ngettext(singular, plural, count) {
+  value = catalog[singular];
+  if (typeof(value) == 'undefined') {
+    return (count == 1) ? singular : plural;
+  } else {
+    return value[pluralidx(count)];
+  }
+}
+
+function gettext_noop(msgid) { return msgid; }
+
+function pgettext(context, msgid) {
+  var value = gettext(context + '\x04' + msgid);
+  if (value.indexOf('\x04') != -1) {
+    value = msgid;
+  }
+  return value;
+}
+
+function npgettext(context, singular, plural, count) {
+  var value = ngettext(context + '\x04' + singular, context + '\x04' + plural, count);
+  if (value.indexOf('\x04') != -1) {
+    value = ngettext(singular, plural, count);
+  }
+  return value;
+}
+
+function interpolate(fmt, obj, named) {
+  if (named) {
+    return fmt.replace(/%\(\w+\)s/g, function(match){return String(obj[match.slice(2,-2)])});
+  } else {
+    return fmt.replace(/%s/g, function(match){return String(obj.shift())});
+  }
+}
+
+/* formatting library */
+
+var formats = new Array();
+
+formats['DATETIME_FORMAT'] = 'j E Y \u0433. G:i:s';
+formats['DATE_FORMAT'] = 'j E Y \u0433.';
+formats['DECIMAL_SEPARATOR'] = ',';
+formats['MONTH_DAY_FORMAT'] = 'j F';
+formats['NUMBER_GROUPING'] = '3';
+formats['TIME_FORMAT'] = 'G:i:s';
+formats['FIRST_DAY_OF_WEEK'] = '1';
+formats['TIME_INPUT_FORMATS'] = ['%H:%M:%S', '%H:%M'];
+formats['THOUSAND_SEPARATOR'] = '\u00a0';
+formats['DATE_INPUT_FORMATS'] = ['%d.%m.%Y', '%d.%m.%y', '%Y-%m-%d'];
+formats['YEAR_MONTH_FORMAT'] = 'F Y \u0433.';
+formats['SHORT_DATE_FORMAT'] = 'd.m.Y';
+formats['SHORT_DATETIME_FORMAT'] = 'd.m.Y H:i';
+formats['DATETIME_INPUT_FORMATS'] = ['%d.%m.%Y %H:%M:%S', '%d.%m.%Y %H:%M', '%d.%m.%Y', '%d.%m.%y %H:%M:%S', '%d.%m.%y %H:%M', '%d.%m.%y', '%Y-%m-%d %H:%M:%S', '%Y-%m-%d %H:%M:%S.%f', '%Y-%m-%d %H:%M', '%Y-%m-%d'];
+
+function get_format(format_type) {
+    var value = formats[format_type];
+    if (typeof(value) == 'undefined') {
+      return format_type;
+    } else {
+      return value;
+    }
+}

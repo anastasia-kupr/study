@@ -1,0 +1,76 @@
+
+ARCHITECTURE(ADSP-21060)
+
+//
+// ADSP-21060 Memory Map:
+//   ------------------------------------------------
+//   Internal memory  0x0000 0000 to 0x0007 ffff
+//   ------------------------------------------------
+//                    0x0000 0000 to 0x0000 00ff  IOP Regs
+//                    0x0000 0100 to 0x0001 ffff  (reserved)
+//           Block 0  0x0002 0000 to 0x0002 ffff  Normal Word (32/48) Addresses
+//                   (0x0002 0000 to 0x0002 9fff) 48-bit words
+//                   (0x0002 0000 to 0x0002 ffff) 32-bit words
+//           Block 1  0x0003 0000 to 0x0003 ffff  Normal Word (32/48) Addresses
+//                   (0x0003 0000 to 0x0003 9fff) 48-bit words
+//                   (0x0003 8000 to 0x0003 ffff) 32-bit words
+//           Block 0  0x0004 0000 to 0x0005 ffff  Short Word (16) Addresses
+//           Block 1  0x0006 0000 to 0x0007 ffff  Short Word (16) Addresses
+//   ------------------------------------------------
+//   Multiproc memory 0x0008 0000 to 0x003f ffff
+//   ------------------------------------------------
+//                    0x0008 0000 to 0x000f ffff  SHARC ID=001 Internal memory
+//                    0x0010 0000 to 0x0017 ffff  SHARC ID=010 Internal memory
+//                    0x0018 0000 to 0x001f ffff  SHARC ID=011 Internal memory
+//                    0x0020 0000 to 0x0027 ffff  SHARC ID=100 Internal memory
+//                    0x0028 0000 to 0x002f ffff  SHARC ID=101 Internal memory
+//                    0x0030 0000 to 0x0037 ffff  SHARC ID=110 Internal memory
+//                    0x0038 0000 to 0x003f ffff  SHARC ID=all Internal memory
+//   ------------------------------------------------
+//   External memory  0x0040 0000 to 0xffff ffff
+//   ------------------------------------------------
+//
+// This architecture file allocates:
+//         Internal 256 words of run-time header in memory block 0
+//                   16 words of initialization code in memory block 0
+//                  32K words of C code space in memory block 0
+//                  32K words of C PM data space in memory block 0
+//                  32K words of C DM data space in memory block 1
+//                  24K words of C heap space in memory block 1
+//                   8K words of C stack space in memory block 1
+
+
+// Libraries from the command line are included in COMMAND_LINE_OBJECTS.
+$OBJECTS = $COMMAND_LINE_OBJECTS;
+
+MEMORY
+{
+	pm_irq_seg	{ TYPE(PM RAM) START(0x20004) END(0x20007) WIDTH(48) }  
+	pm_code_seg	{ TYPE(PM RAM) START(0x20100) END(0x201ff) WIDTH(48)}
+	dm_data_seg	{ TYPE(DM RAM) START(0x30000) END(0x33fff) WIDTH(32)}
+	pm_data_seg	{ TYPE(PM RAM) START(0x24000) END(0x27fff) WIDTH(32)}
+}
+
+
+
+PROCESSOR P0
+{
+    OUTPUT( $COMMAND_LINE_OUTPUT_FILE )
+
+    SECTIONS
+    {
+    	pm_irq_seg{
+    		INPUT_SECTIONS(mainLaba1.doj(pm_irq_svc))
+    	}>pm_irq_seg
+    	pm_code_seg{
+    		INPUT_SECTIONS(mainLaba1.doj(pm_code))
+    	}>pm_code_seg
+    	dm_data_seg{
+    		INPUT_SECTIONS(mainLaba1.doj(dm_data))
+    	}>dm_data_seg   
+    	pm_data_seg{
+    		INPUT_SECTIONS(mainLaba1.doj(pm_data))
+    	}>pm_data_seg     
+    }
+}
+

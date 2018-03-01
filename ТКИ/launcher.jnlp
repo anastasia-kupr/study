@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='windows-1251'?>
+<jnlp spec='1.0+' codebase='http://rain.ifmo.ru/cat/'>
+  <information>
+    <title>Алгоритм сжатия LZ</title>
+    <vendor>http://rain.ifmo.ru/cat/</vendor>
+    <offline-allowed />
+  </information>
+  <resources>
+    <java version='1.7+' />
+    <jar href='http://rain.ifmo.ru/cat/data/vis/data-compression/lz-2000/lz.jar' />
+  </resources>
+  <applet-desc main-class='LzApplet' width='750' height='400' name='Applet'>
+    <param name='SourceText' value='ехали_медведи_на_велосипеде_а_за_ними_кот_задом_наперед_а_за_ним_комарики_на_воздушном_шарике_а_за_ними_раки_на_хромой_собаке_волки_на_кобыле_львы_в_автомобиле_зайчики_в_трамвайчике_жаба_на_метле_едут_и_смеются_пряники_жуют' />
+    <param name='msgRestart' value='Рестарт' />
+    <param name='msgStop' value='Остановка' />
+    <param name='msgPlay' value='Пуск' />
+    <param name='msgLeft' value='&lt;&lt; назад' />
+    <param name='msgRight' value='вперед &gt;&gt;' />
+    <param name='msgPacker' value='Упаковщик' />
+    <param name='msgUnpacker' value='Распаковщик' />
+    <param name='msgLooking' value='Ищем подстроку в таблице' />
+    <param name='msgNoentry' value='Такая подстрока в таблице не найдена. Добавляем.' />
+    <param name='msgNoentry2' value='Подстрока состоит из пустой строки и нового символа. Добавляем в таблицу.' />
+    <param name='msgWasadded' value='Подстрока добавлена в таблицу' />
+    <param name='msgTerminate' value='Весь текст обработан. Процесс завершен.' />
+    <param name='msgFound' value='Подтрока найдена. Продолжаем процесс.' />
+    <param name='msgAddChar' value='Добавляем символ к текущей строке.' />
+    <param name='msgAdded' value='Символ добавлен.' />
+    <param name='msgAddedToTable' value='Подстрока добавлена.' />
+    <param name='msgCurrentStr' value='Текущая строка' />
+    <param name='msgCurrentState' value='Текущее состояние' />
+    <param name='msgReading' value='Считываем последовательность число-символ из исходного файла.' />
+    <param name='msgNoInput' value='Нет входных данных от упаковщика.' />
+    <param name='msgFormStr' value='Формируем строку из вхождения из таблицы и нового символа.' />
+  </applet-desc>
+</jnlp>

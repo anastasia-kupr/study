@@ -1,0 +1,243 @@
+html, body {
+	color: #404040;
+	font: 11pt Arial, Verdana, sans-serif;
+}
+table,tbody,th,td 	{ 
+	font: 11pt Arial, Verdana, sans-serif;
+	border-collapse: collapse;
+	color: #404040;
+	}
+
+input,textarea, select 
+	{ font-size: 11pt; 
+	color: #404040;
+	}
+
+
+#vs-title-1 {
+	color:          white;
+	background:     transparent;
+	border:         0;
+	padding:        0;
+	margin:         0;
+	margin-left:    10px;
+	font-family:    Arial Black, Verdana, Helvetica, Sans-Serif;
+	font-weight:    bold;
+	font-style:     italic;
+	font-size:      220%;
+	letter-spacing: -2px;
+	line-height:    30pt;
+	text-decoration: underline;
+}
+
+#vs-title-2 {
+	color:          white;
+	background:     transparent;
+	border:         0;
+	padding:        0;
+	margin:         0;
+	margin-top:     -10px;
+	margin-left:    10px;
+	font-family:    Verdana, Tahoma, Helvetica, Sans-Serif;
+	font-size:      70%;
+	line-height:    20pt;
+}
+
+.main-font {
+	font-family: Verdana, Tahoma, Helvetica, Sans-Serif;
+	font-size:   70%;
+	/*font-size: 10pt;*/
+}
+
+.news-font {
+	font-family: Verdana, Tahoma, Helvetica, Sans-Serif;
+	font-size:   70%;
+	/*font-size: 8pt;*/
+}
+
+#copy-font {
+	font-family: Verdana, Tahoma, Helvetica, Sans-Serif;
+	font-size:   60%;
+}
+
+a:link,
+a:visited,
+a:active {
+/* red mode                */
+/*  	color:           #9D0000;  */
+ 	color:           #000000;
+	text-decoration: underline;
+}
+
+a:hover {
+	text-decoration: underline;
+ 	color:           red; 
+}
+
+
+a.copy:link,
+a.copy:visited,
+a.copy:active {
+	color:           black;
+	font-family:     Verdana, Tahoma, Helvetica, Sans-Serif;
+	font-size:       100%;
+	font-weight:     bold;
+	text-decoration: none;
+}
+a.copy:hover {
+	color:           black
+	font-family:     Verdana, Tahoma, Helvetica, Sans-Serif;
+	font-size:       100%;
+	font-weight:     bold;
+	text-decoration: underline;
+	outline:         none;
+}
+
+
+a.menu:link,
+a.menu:visited,
+a.menu:active {
+ 	color:           #606060; 
+	font-family:     Verdana, Tahoma, Helvetica, Sans-Serif;
+	font-weight:     bold;
+	font-size: 	 9pt; 
+	text-decoration: none;
+}
+a.menu:hover {
+	color:           #202020;
+	font-family:     Verdana, Tahoma, Helvetica, Sans-Serif;
+	font-weight:     bold;
+	font-size: 	 9pt; 
+	text-decoration: underline;
+}
+
+a.whereyouare:link,
+a.whereyouare:visited,
+a.whereyouare:active {
+	color:           #777777;
+	font-family:     Verdana, Tahoma, Helvetica, Sans-Serif;
+	font-size:       100%;
+	text-decoration: none;
+}
+a.whereyouare:hover {
+	color:           black;
+	font-family:     Verdana, Tahoma, Helvetica, Sans-Serif;
+	font-size:       100%;
+	text-decoration: underline;
+}
+
+.whereareyou {
+ font-size: 8pt; 
+ text-align: left;
+  background-color: #d5d5d5;
+	color:           #aaaaaa;
+	margin-left:     0px;
+	margin-top:      0px;
+	padding-left:    0px;
+	padding-bottom:  0px;
+}
+
+#copy {
+	color:          white;
+	background:     transparent;
+	border:         0;
+	padding:        0;
+	margin:         0;
+/*	margin-top:     -10px; */
+	margin-left:    10px; 
+	font-family:    Verdana, Tahoma, Helvetica, Sans-Serif;
+	font-size:      70%;
+	line-height:    20pt;
+}
+
+#copy_foot {
+	color:          white;
+	background:     transparent;
+	border:         0;
+	padding:        0;
+	margin:         0;
+	margin-left:    10px; 
+	font-family:    Verdana, Tahoma, Helvetica, Sans-Serif;
+	font-size:      70%;
+}
+
+td.menu {
+	border-bottom: #999 1px dotted;
+	font-family:     Verdana, Tahoma, Helvetica, Sans-Serif;
+}
+
+td.submenu {
+	font-family:     Verdana, Tahoma, Helvetica, Sans-Serif;
+}
+
+.newshdr    {
+	border:         1;
+	font: 10pt Arial, Verdana, sans-serif;
+	color: #303030;
+	font-weight:    bold;
+	font-style:     italic;
+	border:         4;
+	padding:        4;
+	margin:         10px;
+	margin-left:    10px;
+	margin-top:    20px;
+}
+
+.newstitle    {
+	border:         1;
+	font: 12pt Arial, Verdana, sans-serif;
+	color: #303030;
+	text-align: center;
+	font-weight:    bold;
+	font-style:     italic;
+}
+
+.newstitlefp    {
+	border:         1;
+	font: 10pt Arial, Verdana, sans-serif;
+	color: #303030;
+	text-align: center;
+	font-weight:    bold;
+	font-style:     italic;
+	background:     #D0D0D0;
+}
+
+
+.newsother    {
+	font: 8pt Arial, Verdana, sans-serif;
+	color: #303030;
+	font-style:     italic;
+}
+
+.newstext     {
+	font: 9pt Arial, Verdana, sans-serif;
+	color: #303030;
+}
+
+.fptext     {
+	font: 10pt Arial, Verdana, sans-serif;
+}
+
+
+/* styles for TIPS */
+.tip		{color: #1111ff;}
+#dhtmltooltip{
+position: absolute;
+left: -300px;
+width: 150px;
+border: 1px solid black;
+padding: 2px;
+background-color: lightyellow;
+visibility: hidden;
+z-index: 100;
+/*Remove below line to remove shadow. Below line should always appear last within this CSS*/
+filter: progid:DXImageTransform.Microsoft.Shadow(color=gray,direction=135);
+}
+
+#dhtmlpointer{
+position:absolute;
+left: -300px;
+z-index: 101;
+visibility: hidden;
+}
+.dash {border: 1px gray dashed}
